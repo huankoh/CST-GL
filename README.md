@@ -14,10 +14,6 @@ Download the SMD dataset from [https://github.com/zhhlee/InterFusion](https://gi
 
 ## Anomaly Detection
 
-Download the SMD dataset from [https://github.com/zhhlee/InterFusion](https://github.com/zhhlee/InterFusion). Pre-process and place it to the data folder. Refer to generate_data folder for more information.
-
-## Anomaly Detection
-
 ### Water Treatment datasets
 
 * SWaT
