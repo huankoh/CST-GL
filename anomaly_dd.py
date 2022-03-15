@@ -4,7 +4,7 @@ import util
 from tqdm import tqdm
 
 
-class gad():
+class anomaly_dd():
     def __init__(self, train_obs, val_obs, test_obs,
                  train_forecast, val_forecast, test_forecast,
                  window_length=None, batch_size=512,root_cause=False):

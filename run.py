@@ -3,7 +3,7 @@ import time
 from util import *
 from trainer import Trainer
 from stgnn import stgnn
-from gad import gad
+from anomaly_dd import anomaly_dd
 from evaluate import pointwise_evaluation, early_detection_evaluation
 import json
 import pandas as pd
@@ -30,6 +30,9 @@ parser.add_argument('--save', type=str, default='./save/', help='save path')
 parser.add_argument('--expid', type=str, default='', help='experiment id')
 parser.add_argument('--runs', type=int, default=1, help='number of runs')
 parser.add_argument('--save_result',type=str,default='',help='path to save forecasting results')
+
+# For evaluation of early detection ability
+parser.add_argument('--delays',type=list,default=[0,6,30,60,120,180,360],help='Early detection delay constraint values') # for wadi/swat every 6 timestamp is a minute
 
 # Training and optimization
 parser.add_argument('--batch_size', type=int, default=4, help='batch size')
@@ -63,19 +66,14 @@ parser.add_argument('--skip_channels', type=int, default=32, help='skip channels
 parser.add_argument('--end_channels', type=int, default=64, help='end channels')
 
 parser.add_argument('--layers', type=int, default=2, help='number of layers')
-
 parser.add_argument('--in_dim', type=int, default=1, help='inputs dimension')
 parser.add_argument('--seq_in_len', type=int, default=5, help='input sequence length')
 parser.add_argument('--seq_out_len', type=int, default=1, help='output sequence length')   # 1 if one-step forecast
 
 # Graph-based Anomaly Detection
-parser.add_argument('--normalization_window',default=None,help='Window size to normalize forecast error.')
-parser.add_argument('--pca_compo', default=10, help='Number of principal components, L')
-parser.add_argument('--error_batch_size', default=128,help='Batch processing sliding window normalization')
-
-## For evaluation of early detection ability 
-parser.add_argument('--delays',default=[0,6,30,60,120,180,360],help='Early detection delay constraint values') # for wadi/swat every 6 timestamp is a minute
-
+parser.add_argument('--normalization_window',type=int,default=None,help='Window size to normalize forecast error.')
+parser.add_argument('--pca_compo',type=int,default=10,help='Number of principal components, L')
+parser.add_argument('--error_batch_size',type=int,default=128,help='Batch processing sliding window normalization')
 
 args = parser.parse_args()
 torch.set_num_threads(4)
@@ -184,12 +182,18 @@ def main(runid):
         log = 'Epoch: {:03d}, Train Loss: {:.4f}, Train MAPE: {:.4f}, Train RMSE: {:.4f}, Valid Loss: {:.4f}, Valid MAPE: {:.4f}, Valid RMSE: {:.4f}, Training Time: {:.4f}/epoch'
         print(log.format(i, mtrain_loss, mtrain_mape, mtrain_rmse, mvalid_loss, mvalid_mape, mvalid_rmse, (t2 - t1)),flush=True)
 
-        if mvalid_loss < minl :
+        if mvalid_loss < minl:
             torch.save(engine.model.state_dict(), args.save + "exp" + str(args.expid) + "_" + str(runid) + ".pth")
             minl = mvalid_loss
 
 
     ###############  Training completed and start forecasting  ###############
+    print("Average Training Time: {:.4f} secs/epoch".format(np.mean(train_time)))
+    print("Average Inference Time: {:.4f} secs".format(np.mean(val_time)))
+    bestid = np.argmin(his_loss)
+    engine.model.load_state_dict(torch.load(args.save + "exp" + str(args.expid) + "_" + str(runid) + ".pth"))
+    print("Training finished")
+    print("The valid loss on best model is", str(round(his_loss[bestid], 4)))
     ##### train data #####
     outputs = []
     realy = torch.Tensor(dataloader['y_train']).to(device)
@@ -276,8 +280,8 @@ def main(runid):
         np.save(args.save_results + "ADP_" + str(runid), adp)
 
 
-    ############### Graph-based Anomaly Detection ###############
-    anomaly_detector = gad(train_label,val_label,test_label,train_pred,val_pred,test_pred,
+    ############### Anomaly Detection and Diagnosis ###############
+    anomaly_detector = anomaly_dd(train_label,val_label,test_label,train_pred,val_pred,test_pred,
                            args.normalization_window, args.error_batch_size)
 
     indicator, prediction = anomaly_detector.scorer(args.pca_compo)
