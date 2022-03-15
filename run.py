@@ -24,7 +24,6 @@ parser = argparse.ArgumentParser()
 # Data and Pre-processing
 parser.add_argument('--device', type=str, default='cuda:0', help='')
 parser.add_argument('--data', type=str, default='./data/minmax_swat', help='data path')
-parser.add_argument('--anomaly_labels', type=str, default='./data/minmax_swat/anomaly_labels.txt', help='anomaly detection file labels')
 parser.add_argument('--scaling_required', type=bool, default=False, help='Whether to scale input for model and inverse scale output from model.')
 parser.add_argument('--save', type=str, default='./save/', help='save path')
 parser.add_argument('--expid', type=str, default='', help='experiment id')
@@ -32,7 +31,7 @@ parser.add_argument('--runs', type=int, default=1, help='number of runs')
 parser.add_argument('--save_result',type=str,default='',help='path to save forecasting results')
 
 # For evaluation of early detection ability
-parser.add_argument('--delays',type=list,default=[0,6,30,60,120,180,360],help='Early detection delay constraint values') # for wadi/swat every 6 timestamp is a minute
+parser.add_argument('--delays',type=str,default=[0,6,30,60,120,180,360],help='Early detection delay constraint values') # for wadi/swat every 6 timestamp is a minute
 
 # Training and optimization
 parser.add_argument('--batch_size', type=int, default=4, help='batch size')
@@ -77,7 +76,7 @@ parser.add_argument('--error_batch_size',type=int,default=128,help='Batch proces
 
 args = parser.parse_args()
 torch.set_num_threads(4)
-
+args.delays = list(map(int, args.delays.strip('[]').split(',')))
 
 def main(runid):
     np.random.seed(runid)
@@ -286,7 +285,7 @@ def main(runid):
 
     indicator, prediction = anomaly_detector.scorer(args.pca_compo)
     # Evaluate results
-    with open(args.anomaly_labels,'r') as f:
+    with open(args.data+'/anomaly_labels.txt','r') as f:
         labels = [int(i) for i in f.read().split(',')]
 
     pointwise = pointwise_evaluation(labels,prediction,indicator)
@@ -296,6 +295,7 @@ def main(runid):
 
 
 if __name__ == "__main__":
+
 
     overall = []
     early_detect = []
