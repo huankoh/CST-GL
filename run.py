@@ -331,18 +331,16 @@ if __name__ == "__main__":
     ['std:',std['auto_precision'],std['auto_recall'],std['auto_f1']]]
     for row in table_data:
         print("{: >20} {: >20} {: >20} {: >20}".format(*row))
-    
+
     print('\n\n-----------Early Detection Results-----------\n\n')
-    df = pd.DataFrame(early_detect)
-    mean = dict(df.mean().round(4))
-    std = dict(df.std().round(4))
-    table_data= [['Delay']+[str(d) for d in args.delays],
-    ['mean:'] + [str(mean['delay_'+str(d)]) for d in args.delays],
-    ['std:']+[str(std['delay_'+str(d)]) for d in args.delays]]
-    
-    print_holder = "{: >20} "*(len(args.delays)+1)
-    num = int(len(args.delays)/3+0.5)
+    num = int(len(args.delays) / 3 + 0.5)
     for i in range(num):
-        subtable = table_data[0] + table_data[i*3:(i+1)*3]
-        for row in subtable:
-            print(print_holder.format(*row))
+        df = pd.DataFrame(early_detect)
+        mean = dict(df.mean().round(4))
+        std = dict(df.std().round(4))
+        table_data = [['Delay'] + [str(d) for d in args.delays[i * 3:(i + 1) * 3]],
+                      ['mean:'] + [str(mean['delay_' + str(d)]) for d in args.delays[i * 3:(i + 1) * 3]],
+                      ['std:'] + [str(std['delay_' + str(d)]) for d in args.delays[i * 3:(i + 1) * 3]]]
+
+        for row in table_data:
+            print("{: >20} {: >20} {: >20} {: >20}".format(*row))

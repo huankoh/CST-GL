@@ -18,12 +18,12 @@ Download the SMD dataset from [https://github.com/zhhlee/InterFusion](https://gi
 
 * SWaT
 ```
-python run.py --data data/swat --expid swat --delays [0,6,30,60,120,180,360] --num_nodes 51 --subgraph_size 15 --normalization_window 25000 --pca_compo 10
+python run.py --data data/swat --expid swat --delays [0,6,30,60,120,180,360] --num_nodes 51 --subgraph_size 15 --normalization_window 28000 --pca_compo 5
 ```
 
 * WADI
 ```
-python run.py --data data/wadi --expid wadi --delays [0,6,30,60,120,180,360] --num_nodes 127 --subgraph_size 30  --normalization_window 200 -- pca_compo 100
+python run.py --data data/wadi --expid wadi --delays [0,6,30,60,120,180,360] --num_nodes 127 --subgraph_size 30  --normalization_window 200 --pca_compo 100
 ```
 
 ### Server Machine datasets
