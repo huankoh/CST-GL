@@ -7,9 +7,9 @@ from multiprocessing import Pool
 def pointwise_evaluation(gt_labels, pred_labels, scoring):
 
     ## non-iterative
-    recall = recall_score(gt_labels, pred_labels)
-    precision = precision_score(gt_labels, pred_labels)
-    f1 = f1_score(gt_labels, pred_labels)
+    auto_recall = recall_score(gt_labels, pred_labels)
+    auto_precision = precision_score(gt_labels, pred_labels)
+    auto_f1 = f1_score(gt_labels, pred_labels)
     roc = roc_auc_score(gt_labels, scoring)
     prc = average_precision_score(gt_labels, scoring)
 
@@ -29,7 +29,7 @@ def pointwise_evaluation(gt_labels, pred_labels, scoring):
     best_recall = recall_score(gt_labels,best_pred)
     best_precision = precision_score(gt_labels,best_pred)
 
-    output = dict(precision=precision,recall=recall,f1=f1,
+    output = dict(auto_precision=auto_precision,auto_recall=auto_recall,auto_f1=auto_f1,
                   roc=roc,prc=prc,best_precision=best_precision,
                   best_recall=best_recall,best_f1=best_f1)
     return output

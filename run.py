@@ -327,8 +327,8 @@ if __name__ == "__main__":
 
     print('---- Automatic threshold ----')
     table_data= [['Metric:','Precision','Recall','F1'],
-    ['mean:',mean['precision'],mean['recall'],mean['f1']],
-    ['std:',std['precision'],std['recall'],std['f1']]]
+    ['mean:',mean['auto_precision'],mean['auto_recall'],mean['auto_f1']],
+    ['std:',std['auto_precision'],std['auto_recall'],std['auto_f1']]]
     for row in table_data:
         print("{: >20} {: >20} {: >20} {: >20}".format(*row))
     
@@ -341,5 +341,8 @@ if __name__ == "__main__":
     ['std:']+[str(std['delay_'+str(d)]) for d in args.delays]]
     
     print_holder = "{: >20} "*(len(args.delays)+1)
-    for row in table_data:
-        print(print_holder.format(*row))
+    num = int(len(args.delays)/3+0.5)
+    for i in range(num):
+        subtable = table_data[0] + table_data[i*3:(i+1)*3]
+        for row in subtable:
+            print(print_holder.format(*row))
