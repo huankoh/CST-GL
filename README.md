@@ -35,21 +35,21 @@ Few examples from server machine of different groups. For more information about
 
 Machine-1-1
 ```
-python run.py --data data/machine-1-1  --expid machine-1-1 --delays [0,1,5,10,20,30,60] --num_nodes 38 --subgraph_size 10 -- pca_compo 8
+python run.py --data data/machine-1-1  --expid machine-1-1 --delays [0,1,5,10,20,30,60] --num_nodes 38 --subgraph_size 10 --pca_compo 8
 ```
 Machine-2-7
 ```
-python run.py --data data/machine-2-7 --expid machine-2-7 --delays [0,1,5,10,20,30,60] --num_nodes 38 --subgraph_size 10 -- pca_compo 8
+python run.py --data data/machine-2-7 --expid machine-2-7 --delays [0,1,5,10,20,30,60] --num_nodes 38 --subgraph_size 10 --pca_compo 8
 ```
 Machine-3-4
 ```
-python run.py --data data/machine-3-4 --expid machine-3-4 --delays [0,1,5,10,20,30,60] --num_nodes 38 --subgraph_size 10 -- pca_compo 26
+python run.py --data data/machine-3-4 --expid machine-3-4 --delays [0,1,5,10,20,30,60] --num_nodes 38 --subgraph_size 10 --pca_compo 26
 ```
 
 
 
 ## Citation
-
+If you find this research useful, please cite our paper:
 ```
 @misc{zheng2023correlationaware,
       title={Correlation-aware Spatial-Temporal Graph Learning for Multivariate Time-series Anomaly Detection}, 
