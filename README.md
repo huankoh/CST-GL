@@ -51,5 +51,12 @@ python run.py --data data/machine-3-4 --expid machine-3-4 --delays [0,1,5,10,20,
 ## Citation
 
 ```
-citation for our work.
+@misc{zheng2023correlationaware,
+      title={Correlation-aware Spatial-Temporal Graph Learning for Multivariate Time-series Anomaly Detection}, 
+      author={Yu Zheng and Huan Yee Koh and Ming Jin and Lianhua Chi and Khoa T. Phan and Shirui Pan and Yi-Ping Phoebe Chen and Wei Xiang},
+      year={2023},
+      eprint={2307.08390},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
 ```
