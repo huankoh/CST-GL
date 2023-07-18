@@ -42,7 +42,7 @@ class anomaly_dd():
         val_abs = np.absolute(self.val_obs - self.val_forecast)
         full_obs = np.concatenate((self.train_obs, self.val_obs, self.test_obs), axis=0)
         full_forecast = np.concatenate((self.train_forecast, self.val_forecast, self.test_forecast), axis=0)
-        full_abs = np.absolute(full_obs, full_forecast)
+        full_abs = np.absolute(full_obs - full_forecast)
         # Normalize forecast error deviation
         val_norm = error_normalizer(val_abs)
         test_norm = error_sw_normalizer(full_abs,self.window_length,self.batch_size,len(self.test_obs))
