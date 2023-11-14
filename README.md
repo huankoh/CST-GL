@@ -1,6 +1,6 @@
 # CST-GL
-This is a PyTorch implementation of the paper: [Correlation-aware Spatial-Temporal Graph Neural Networks for Multivariate Time-series Anomaly
-Detection](https://arxiv.org/abs/2307.08390). 
+This is a PyTorch implementation of the paper: [Correlation-aware Spatial-Temporal Graph Learning for Multivariate Time-series Anomaly
+Detection (TNNLS)](https://arxiv.org/abs/2307.08390). 
 
 ## Requirements
 The model is implemented using Python3.7 with dependencies specified in requirements.txt
@@ -51,12 +51,10 @@ python run.py --data data/machine-3-4 --expid machine-3-4 --delays [0,1,5,10,20,
 ## Citation
 If you find this research useful, please cite our paper:
 ```
-@misc{zheng2023correlationaware,
+@article{zheng2023correlationaware,
       title={Correlation-aware Spatial-Temporal Graph Learning for Multivariate Time-series Anomaly Detection}, 
       author={Yu Zheng and Huan Yee Koh and Ming Jin and Lianhua Chi and Khoa T. Phan and Shirui Pan and Yi-Ping Phoebe Chen and Wei Xiang},
       year={2023},
-      eprint={2307.08390},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
+      journal={IEEE Transactions on Neural Networks and Learning Systems}
 }
 ```
